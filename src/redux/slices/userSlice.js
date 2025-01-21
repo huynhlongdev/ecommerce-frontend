@@ -9,6 +9,8 @@ const initialState = {
   profile: {},
   userAuth: {
     loading: false,
+    error: false,
+    userInfo: {},
   },
 };
 
@@ -18,9 +20,19 @@ const userSlide = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     // handle register
-    builder.addCase(registerUserAction.pending, (state) => {});
-    builder.addCase(registerUserAction.fulfilled, (state) => {});
-    builder.addCase(registerUserAction.rejected, (state) => {});
+    builder.addCase(registerUserAction.pending, (state) => {
+      state.userAuth.loading = true;
+    });
+    builder.addCase(registerUserAction.fulfilled, (state, action) => {
+      state.userAuth.loading = false;
+      state.userAuth.userInfo = action.payload;
+
+      console.log("state", state);
+      console.log("action", action);
+    });
+    builder.addCase(registerUserAction.rejected, (state) => {
+      state.userAuth.loading = false;
+    });
 
     // handle login
     builder.addCase(loginUserAction.pending, (state) => {});

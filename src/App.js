@@ -1,18 +1,12 @@
-import logo from "./logo.svg";
-import "./App.css";
+import { useState } from "react";
+import { Router } from "./router/Router";
+import publicRoutes from "./router/publicRoute";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <h1 class="text-3xl font-bold underline">Hello world!</h1>
-      </header>
-    </div>
-  );
+  const [allRoutes, setAllRoutes] = useState([...publicRoutes]);
+  console.log(">>>", allRoutes);
+
+  return <Router allRoutes={allRoutes} />;
 }
 
 export default App;
