@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUserAction, loginUserAction } from "../actions/userAction";
+import {
+  registerUserAction,
+  loginUserAction,
+  forgotPasswordUserAction,
+  resetPasswordUserAction,
+} from "../actions/userAction";
 
 const initialState = {
   error: false,
@@ -55,7 +60,36 @@ const userSlide = createSlice({
       state.userAuth.loading = false;
       state.message = action.payload;
     });
-    //
+
+    // handle forgot password
+    builder.addCase(forgotPasswordUserAction.pending, (state, action) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(forgotPasswordUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    });
+    builder.addCase(forgotPasswordUserAction.rejected, (state, action) => {
+      state.error = false;
+      state.loading = false;
+      state.message = action.payload;
+    });
+
+    // handle reset password
+    builder.addCase(resetPasswordUserAction.pending, (state, action) => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(resetPasswordUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    });
+    builder.addCase(resetPasswordUserAction.rejected, (state, action) => {
+      state.error = false;
+      state.loading = false;
+      state.message = action.payload;
+    });
   },
 });
 

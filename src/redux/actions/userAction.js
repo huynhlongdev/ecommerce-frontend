@@ -51,3 +51,51 @@ export const loginUserAction = createAsyncThunk(
     }
   }
 );
+
+export const forgotPasswordUserAction = createAsyncThunk(
+  "users/forgot-password",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/auth/forgot-password`,
+        payload
+      );
+
+      // Show noti
+      toast.success(response?.data?.message || "Send mail successfully");
+
+      return response?.data;
+    } catch (error) {
+      // Show noti
+      toast.error(
+        error?.response?.data?.message || "Email or password in wrong"
+      );
+
+      return rejectWithValue(error?.response?.data?.message || "Login failed");
+    }
+  }
+);
+
+export const resetPasswordUserAction = createAsyncThunk(
+  "users/reset-password",
+  async ({ token, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/auth/reset-password?token=${token}`,
+        { token, password }
+      );
+
+      // Show noti
+      toast.success(response?.data?.message || "Send mail successfully");
+
+      return response?.data;
+    } catch (error) {
+      // Show noti
+      toast.error(
+        error?.response?.data?.message || "Email or password in wrong"
+      );
+
+      return rejectWithValue(error?.response?.data?.message || "Login failed");
+    }
+  }
+);

@@ -24,7 +24,8 @@ const Register = () => {
     dispatch(clearAuthState())
   }, [dispatch])
 
-  // const password = watch("password");
+  const password = watch("password");
+
     return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
@@ -86,19 +87,19 @@ const Register = () => {
                 {...register('password', {
                   required: "Password is required",
                   minLength: {
-                  value: 2,
+                  value: 6,
                   message: "Password must be at least 6 characters",
                   },
-                //   pattern: {
-                //   value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
-                //   message: "Password must include at least 1 uppercase letter, 1 number, and 1 special character",
-                // },
+                  pattern: {
+                  value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
+                  message: "Password must include at least 1 uppercase letter, 1 number, and 1 special character",
+                },
                 })}
               />
               {errors.password  && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
           </div>
 
-          {/* <div>
+          <div>
             <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-600">
               Confirm Password
             </label>
@@ -116,7 +117,7 @@ const Register = () => {
               {errors.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
             )}
-          </div> */}
+          </div>
 
           <button
             type="submit"
