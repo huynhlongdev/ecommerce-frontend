@@ -7,6 +7,7 @@ const initialState = {
   users: [],
   user: {},
   profile: {},
+  message: "",
   userAuth: {
     loading: false,
     error: false,
@@ -17,31 +18,47 @@ const initialState = {
 const userSlide = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    clearAuthState: (state) => {
+      state.error = false;
+      state.message = null;
+    },
+  },
   extraReducers: (builder) => {
     // handle register
     builder.addCase(registerUserAction.pending, (state) => {
       state.userAuth.loading = true;
+      state.error = false;
     });
     builder.addCase(registerUserAction.fulfilled, (state, action) => {
       state.userAuth.loading = false;
       state.userAuth.userInfo = action.payload;
-
-      console.log("state", state);
-      console.log("action", action);
+      state.message = "User registered successfully!";
     });
-    builder.addCase(registerUserAction.rejected, (state) => {
+    builder.addCase(registerUserAction.rejected, (state, action) => {
       state.userAuth.loading = false;
+      state.error = true;
+      state.message = action.payload;
     });
 
     // handle login
-    builder.addCase(loginUserAction.pending, (state) => {});
-    builder.addCase(loginUserAction.fulfilled, (state) => {});
-    builder.addCase(loginUserAction.rejected, (state) => {});
+    builder.addCase(loginUserAction.pending, (state, action) => {
+      state.userAuth.loading = true;
+      state.error = false;
+    });
+    builder.addCase(loginUserAction.fulfilled, (state, action) => {
+      state.userAuth.loading = false;
+      state.userAuth.userInfo = action.payload;
+    });
+    builder.addCase(loginUserAction.rejected, (state, action) => {
+      state.error = false;
+      state.userAuth.loading = false;
+      state.message = action.payload;
+    });
     //
   },
 });
 
-// export const {} = userSlide.actions
+export const { clearAuthState } = userSlide.actions;
 
 export default userSlide.reducer;
