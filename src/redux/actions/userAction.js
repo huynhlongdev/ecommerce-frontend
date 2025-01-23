@@ -35,7 +35,11 @@ export const loginUserAction = createAsyncThunk(
   "users/login",
   async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${baseUrl}/auth/login`, payload);
+      const response = await axios.post(`${baseUrl}/auth/login`, payload, {
+        withCredentials: true,
+      });
+
+      localStorage.setItem("accessToken", response?.data?.token);
 
       // Show noti
       toast.success(response?.data?.message || "Login success");
@@ -83,6 +87,30 @@ export const resetPasswordUserAction = createAsyncThunk(
       const response = await axios.post(
         `${baseUrl}/auth/reset-password?token=${token}`,
         { token, password }
+      );
+
+      // Show noti
+      toast.success(response?.data?.message || "Send mail successfully");
+
+      return response?.data;
+    } catch (error) {
+      // Show noti
+      toast.error(
+        error?.response?.data?.message || "Email or password in wrong"
+      );
+
+      return rejectWithValue(error?.response?.data?.message || "Login failed");
+    }
+  }
+);
+
+export const activeUserAction = createAsyncThunk(
+  "users/active_user",
+  async ({ token }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/auth/active?token=${token}`,
+        { token }
       );
 
       // Show noti

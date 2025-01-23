@@ -1,3 +1,4 @@
+import ActiveAccount from "../views/Auth/ActiveAccount";
 import ForgotPassword from "../views/Auth/ForgotPassword";
 import Login from "../views/Auth/Login";
 import Register from "../views/Auth/Register";
@@ -18,6 +19,10 @@ const publicRoutes = [
   {
     path: "/reset-password",
     element: <ResetPassword />,
+  },
+  {
+    path: "/active",
+    element: <ActiveAccount />,
   },
 ];
 

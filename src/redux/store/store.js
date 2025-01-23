@@ -7,8 +7,8 @@ import settingSlide from "../slices/settingSlice";
 const store = configureStore({
   reducer: {
     users: userSlide,
-    products: productSlide,
-    settings: settingSlide,
+    // products: productSlide,
+    // settings: settingSlide,
   },
 });
 
